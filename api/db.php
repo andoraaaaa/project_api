@@ -2,7 +2,7 @@
 $host = 'localhost';
 $dbname = 'movie_api';
 $username = 'root'; // Sesuaikan dengan konfigurasi MySQL Anda
-$password = 'red2002';
+$password = '';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
