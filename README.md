@@ -2,6 +2,11 @@
 
 Website ini adalah sebuah website layanan streaming film sederhana. Pada web ini terdapat database yang menyimpan data film-film. Selanjutnya, backend menyediakan API dalam bentuk API_KEY untuk dapat digunakan oleh frontend dalam membuat halaman website dan mengambil data dari database (data film-film)
 
+```
+Nama : Muhammad Andra Maulana
+Email : andramuhammad600@gmail.com
+```
+
 ## How to use
 Anda bisa mendownload repo ini dan langsung jalankan setelah upload .sql ke phpmyadmin dan konfigurasi db.php di api/db.php sesuai dengan konfigurasi anda
 
