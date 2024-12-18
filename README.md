@@ -50,12 +50,39 @@ Response example :
 Example index.php :
 ```
 <?php
-$apiKey = '1234567890abcdef';
-$apiUrl = "http://andramaulana.my.id/api/index.php?api_key=$apiKey";
+$apiKey = '1234567890abcdef'; // Ganti dengan API key valid Anda
+$apiUrl = "https://andramaulana.my.id/api/api/index.php?api_key=$apiKey";
 
+// Ambil respons dari API
 $response = file_get_contents($apiUrl);
-$movies = json_decode($response, true);
 
-<?php echo json_encode($data, JSON_PRETTY_PRINT); ?>
+// Cek jika respons valid
+if ($response === false) {
+    die("Error: Unable to fetch data from the API.");
+}
+
+// Decode JSON ke array
+$data = json_decode($response, true);
+
+if ($data === null) {
+    die("Error: Failed to decode the JSON response.");
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menampilkan Data JSON</title>
+</head>
+<body>
+    
+    <h2>Response JSON:</h2>
+    <pre><?php echo json_encode($data, JSON_PRETTY_PRINT); ?></pre>
+
+</body>
+</html>
+
 ```
 
