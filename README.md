@@ -47,7 +47,7 @@ Response example :
         ...
     ]
 ```
-Example :
+Example index.php :
 ```
 <?php
 $apiKey = '1234567890abcdef';
@@ -55,5 +55,7 @@ $apiUrl = "http://andramaulana.my.id/api/index.php?api_key=$apiKey";
 
 $response = file_get_contents($apiUrl);
 $movies = json_decode($response, true);
+
+<?php echo json_encode($data, JSON_PRETTY_PRINT); ?>
 ```
 
