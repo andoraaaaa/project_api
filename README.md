@@ -24,7 +24,7 @@ $password = '';
 * Run laragon/wampp/xampp server
 * Go to 127.0.0.1/project_api
 
-Jika anda menggunakan nama folder yang berbeda, harap konfigurasi api.php
+**Jika anda menggunakan nama folder yang berbeda, harap konfigurasi api.php**
 
 ```
 $apiKey = '1234567890abcdef'; // Ganti dengan API key Anda
