@@ -22,7 +22,7 @@ $randomMovies = array_slice($movies, 0, 8); // Random 8 movies
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Netflix Clone</title>
+    <title>Mateflix | Layanan Streaming Film Sederhana</title>
     <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
     <link rel="stylesheet" href="css/style.css">
     <script src="main.js"></script>
@@ -32,7 +32,7 @@ $randomMovies = array_slice($movies, 0, 8); // Random 8 movies
     <div class="wrapper">
         <!-- HEADER -->
         <header>
-            <div class="netflixLogo">
+            <div class="MateflixLogo">
                 <a id="logo" href="#home"><img src="https://github.com/carlosavilae/Netflix-Clone/blob/master/img/logo.PNG?raw=true" alt="Logo Image"></a>
             </div>
             <nav class="main-nav">
@@ -58,8 +58,13 @@ $randomMovies = array_slice($movies, 0, 8); // Random 8 movies
                 <div class="box">
                     <?php foreach ($topMovies as $movie): ?>
                         <a href="watch.php?movie_id=<?= urlencode($movie['id']); ?>">
+                        <div class="image-container">
                             <img src="<?= htmlspecialchars($movie['image_url']); ?>" alt="<?= htmlspecialchars($movie['title']); ?>">
-                        </a>
+                            <div class="overlay">
+                                <p class="title"><?= htmlspecialchars($movie['title']); ?></p>
+                            </div>
+                        </div>
+                    </a>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -69,32 +74,20 @@ $randomMovies = array_slice($movies, 0, 8); // Random 8 movies
             <div class="box">
                 <?php foreach ($randomMovies as $movie): ?>
                     <a href="watch.php?movie_id=<?= urlencode($movie['id']); ?>">
-                        <img src="<?= htmlspecialchars($movie['image_url']); ?>" alt="<?= htmlspecialchars($movie['title']); ?>">
+                        <div class="image-container">
+                            <img src="<?= htmlspecialchars($movie['image_url']); ?>" alt="<?= htmlspecialchars($movie['title']); ?>">
+                            <div class="overlay">
+                                <p class="title"><?= htmlspecialchars($movie['title']); ?></p>
+                            </div>
+                        </div>
                     </a>
                 <?php endforeach; ?>
             </div>
         </section>
 
-        <!-- LINKS -->
-        <section class="link">
-            <div class="logos">
-                <a href="#"><i class="fab fa-facebook-square fa-2x logo"></i></a>
-                <a href="#"><i class="fab fa-instagram fa-2x logo"></i></a>
-                <a href="#"><i class="fab fa-twitter fa-2x logo"></i></a>
-                <a href="#"><i class="fab fa-youtube fa-2x logo"></i></a>
-            </div>
-            <div class="sub-links">
-                <ul>
-                    <li><a href="#">Audio and Subtitles</a></li>
-                    <li><a href="#">Help Center</a></li>
-                    <li><a href="#">Privacy</a></li>
-                </ul>
-            </div>
-        </section>
-
         <!-- FOOTER -->
         <footer>
-            <p>&copy; 2024 Netflix Clone</p>
+            <p>&copy; 2024 Mateflix</p>
         </footer>
     </div>
 
