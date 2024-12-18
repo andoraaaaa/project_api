@@ -1,17 +1,12 @@
 <?php
-$apiKey = '1234567890abcdef'; // Ganti dengan API key valid Anda
-$apiUrl = "http://localhost/project_api/api/index.php?api_key=$apiKey";
 
-$response = file_get_contents($apiUrl);
-$movies = json_decode($response, true);
+include('../api.php');
 
-// Sort top movies by views
 usort($movies, function ($a, $b) {
     return $b['views'] - $a['views'];
 });
 $topMovies = array_slice($movies, 0, 10); // Top 10 movies
 
-// Shuffle for random movies
 shuffle($movies);
 $randomMovies = array_slice($movies, 0, 8); // Random 8 movies
 ?>
@@ -115,7 +110,6 @@ $randomMovies = array_slice($movies, 0, 8); // Random 8 movies
             const watchButton = document.getElementById('watchButton');
             const closeBtn = document.querySelector('.close');
 
-            // Tambahkan event listener ke setiap container film
             document.querySelectorAll('.box .image-container').forEach(container => {
                 container.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -127,10 +121,10 @@ $randomMovies = array_slice($movies, 0, 8); // Random 8 movies
                     const description = container.getAttribute('data-description') || 'Details not available';
                     const movieId = container.getAttribute('data-id');
 
-                    // Filter genre yang tersedia
+                    // Filter 
                     const genres = genre.split(',').filter(g => g.trim() !== '');
 
-                    // Isi data modal
+                    // Modal data
                     modalImage.src = image;
                     modalTitle.textContent = title;
                     modalDetails.innerHTML = `
@@ -139,20 +133,17 @@ $randomMovies = array_slice($movies, 0, 8); // Random 8 movies
                 <strong>Views:</strong> ${views}
             `;
 
-                    // Atur tautan tombol Watch Now
                     watchButton.href = `watch.php?movie_id=${encodeURIComponent(movieId)}`;
 
-                    // Tampilkan modal
+                    
                     modal.style.display = 'block';
                 });
             });
 
-            // Tutup modal saat tombol close diklik
             closeBtn.addEventListener('click', () => {
                 modal.style.display = 'none';
             });
 
-            // Tutup modal saat klik di luar modal
             window.addEventListener('click', (e) => {
                 if (e.target === modal) {
                     modal.style.display = 'none';

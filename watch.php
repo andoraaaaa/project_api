@@ -1,20 +1,19 @@
 <?php
-$apiKey = '1234567890abcdef'; // Ganti dengan API key valid Anda
-$movieId = isset($_GET['movie_id']) ? $_GET['movie_id'] : 0; // Ambil movie_id dari URL
-$apiUrl = "http://localhost/project_api/api/index.php?api_key=$apiKey&movie_id=$movieId";
+
+include('api.php');
+$movieId = isset($_GET['movie_id']) ? $_GET['movie_id'] : 0; // movie_id dari URL
 
 $response = file_get_contents($apiUrl);
 $movies = json_decode($response, true);
 
-// Cek jika film ditemukan
 $movie = null;
 foreach ($movies as $m) {
     if ($m['id'] == $movieId) {
-        $movie = $m; // Temukan film yang sesuai dengan movie_id
+        $movie = $m;
         break;
 }
 }
-// Pastikan data film ditemukan
+// error handlrer
 if (!$movie) {
     echo "<p>Film tidak ditemukan.</p>";
     exit;
@@ -31,7 +30,6 @@ if (!$movie) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <!-- Tombol kembali -->
     <div class="back-container">
         <a href="../project_api" class="back-button">
             <i class="fas fa-arrow-left"></i> Back to Home

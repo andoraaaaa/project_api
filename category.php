@@ -1,14 +1,9 @@
 <?php
-$apiKey = '1234567890abcdef'; // Ganti dengan API key valid Anda
-$apiUrl = "http://localhost/project_api/api/index.php?api_key=$apiKey";
 
-$response = file_get_contents($apiUrl);
-$movies = json_decode($response, true);
+include('api.php');
 
-// Ambil genre yang dicentang dari form
 $selectedGenres = isset($_GET['genres']) ? $_GET['genres'] : [];
 
-// Filter film berdasarkan genre yang dipilih
 $filteredMovies = [];
 foreach ($movies as $movie) {
     $movieGenres = array_filter([$movie['genre1'], $movie['genre2'], $movie['genre3']]);
@@ -41,7 +36,6 @@ foreach ($movies as $movie) {
             <form method="GET" action="category.php">
                 <div class="checkbox-list">
                     <?php
-                    // Ambil daftar genre unik
                     $genres = [];
                     foreach ($movies as $movie) {
                         foreach (['genre1', 'genre2', 'genre3'] as $genreKey) {
@@ -51,8 +45,7 @@ foreach ($movies as $movie) {
                         }
                     }
                     ksort($genres);
-
-                    // Tampilkan checkbox
+                    
                     foreach ($genres as $genre) {
                         $isChecked = in_array($genre, $selectedGenres) ? 'checked' : '';
                         echo "<label><input type='checkbox' name='genres[]' value='$genre' $isChecked> $genre</label>";

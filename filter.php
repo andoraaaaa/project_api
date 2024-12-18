@@ -1,24 +1,19 @@
 <?php
-$apiKey = '1234567890abcdef'; // Ganti dengan API key valid Anda
-$apiUrl = "http://localhost/project_api/api/index.php?api_key=$apiKey";
 
-// Ambil data film dari API
-$response = file_get_contents($apiUrl);
-$movies = json_decode($response, true);
+include('api.php');
 
-// Fungsi untuk menampilkan film berdasarkan filter
 function filterMovies($movies, $filterType)
 {
     switch ($filterType) {
         case 'most_watched':
             usort($movies, function ($a, $b) {
-                return $b['views'] - $a['views']; // Urutkan berdasarkan views
+                return $b['views'] - $a['views']; // Urut berdasarkan views
             });
             break;
 
         case 'most_liked':
             usort($movies, function ($a, $b) {
-                return $b['total_like'] - $a['total_like']; // Urutkan berdasarkan total like
+                return $b['total_like'] - $a['total_like']; // Urut berdasarkan total like
             });
             break;
 
@@ -26,7 +21,7 @@ function filterMovies($movies, $filterType)
             usort($movies, function ($a, $b) {
                 $ratingA = ($a['total_like'] / ($a['total_like'] + $a['total_dislike'])) * 100;
                 $ratingB = ($b['total_like'] / ($b['total_like'] + $b['total_dislike'])) * 100;
-                return $ratingB - $ratingA; // Urutkan berdasarkan persentase rating
+                return $ratingB - $ratingA; // Urut berdasarkan persentase rating
             });
             break;
 
@@ -43,8 +38,6 @@ function filterMovies($movies, $filterType)
 
     return $movies;
 }
-
-// Ambil filter yang dipilih dari parameter URL
 $filterType = isset($_GET['filter']) ? $_GET['filter'] : 'most_watched';
 $filteredMovies = filterMovies($movies, $filterType);
 
