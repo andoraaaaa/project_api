@@ -28,9 +28,9 @@ $password = '';
 
 ```
 $apiKey = '1234567890abcdef'; // Ganti dengan API key Anda
-$apiUrl = "http://localhost/FOLDER_NAME/api/index.php?api_key=$apiKey";
+$apiUrl = "http://localhost/**FOLDER_NAME**/api/index.php?api_key=$apiKey";
 ```
-^Ganti $apiUrl dengan alamat anda
+^Ganti $apiUrl dengan alamat anda tanpa tanda (**)
 
 ### Use available API (Public API)
 Atau anda bisa menggunakan API saja yang sudah di publish public.
