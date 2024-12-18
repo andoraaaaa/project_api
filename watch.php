@@ -31,7 +31,7 @@ if (!$movie) {
 </head>
 <body>
     <div class="back-container">
-        <a href="../project_api" class="back-button">
+        <a href="#" onclick="history.go(-1)" class="back-button">
             <i class="fas fa-arrow-left"></i> Back to Home
         </a>
     </div>
