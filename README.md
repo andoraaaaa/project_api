@@ -33,7 +33,7 @@ Atau anda bisa menggunakan API saja yang sudah di publish public.
 * Gunakan endpoint untuk mendapatkan data film
 ```
 API_KEY : 1234567890abcdef
-GET http://andramaulana.my.id/api/index.php?api_key=YOUR_API_KEY
+GET http://andramaulana.my.id/api/api/index.php?api_key=YOUR_API_KEY
 ```
 Response example :
 ```
