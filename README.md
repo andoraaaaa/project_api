@@ -2,6 +2,11 @@
 
 Website ini adalah sebuah website layanan streaming film sederhana. Pada web ini terdapat database yang menyimpan data film-film. Selanjutnya, backend menyediakan API dalam bentuk API_KEY untuk dapat digunakan oleh frontend dalam membuat halaman website dan mengambil data dari database (data film-film)
 
+```
+Nama : Muhammad Andra Maulana
+Email : andramuhammad600@gmail.com
+```
+
 ## How to use
 Anda bisa mendownload repo ini dan langsung jalankan setelah upload .sql ke phpmyadmin dan konfigurasi db.php di api/db.php sesuai dengan konfigurasi anda
 
@@ -19,21 +24,21 @@ $password = '';
 * Run laragon/wampp/xampp server
 * Go to 127.0.0.1/project_api
 
-Jika anda menggunakan nama folder yang berbeda, harap konfigurasi api.php
+**Jika anda menggunakan nama folder yang berbeda, harap konfigurasi api.php**
 
 ```
 $apiKey = '1234567890abcdef'; // Ganti dengan API key Anda
-$apiUrl = "http://localhost/FOLDER_NAME/api/index.php?api_key=$apiKey";
+$apiUrl = "http://localhost/**FOLDER_NAME**/api/index.php?api_key=$apiKey";
 ```
-^Ganti $apiUrl dengan alamat anda
+^Ganti $apiUrl dengan alamat anda tanpa tanda (**)
 
-### Use available API 
+### Use available API (Public API)
 Atau anda bisa menggunakan API saja yang sudah di publish public.
 
 * Gunakan endpoint untuk mendapatkan data film
 ```
 API_KEY : 1234567890abcdef
-GET http://andramaulana.my.id/api/index.php?api_key=YOUR_API_KEY
+GET http://andramaulana.my.id/api/api/index.php?api_key=YOUR_API_KEY
 ```
 Response example :
 ```
