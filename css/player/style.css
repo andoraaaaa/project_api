@@ -141,4 +141,31 @@ button i:hover {
 .screen-size .minimized {
   display: none;
 }
-/*# sourceMappingURL=style.css.map */
+.back-container {
+  padding: 10px 20px;
+  background: #111;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 3;
+}
+
+.back-button {
+  color: #fff;
+  font-size: 18px;
+  text-decoration: none;
+  font-family: 'Rubik', sans-serif;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+}
+
+.back-button i {
+  margin-right: 8px;
+  font-size: 20px;
+}
+
+.back-button:hover {
+  color: #f00;
+}

@@ -2,18 +2,52 @@
 $apiKey = '1234567890abcdef'; // Ganti dengan API key valid Anda
 $apiUrl = "http://localhost/project_api/api/index.php?api_key=$apiKey";
 
+// Ambil data film dari API
 $response = file_get_contents($apiUrl);
 $movies = json_decode($response, true);
 
-// Sort top movies by views
-usort($movies, function ($a, $b) {
-    return $b['views'] - $a['views'];
-});
-$topMovies = array_slice($movies, 0, 10); // Top 10 movies
+// Fungsi untuk menampilkan film berdasarkan filter
+function filterMovies($movies, $filterType)
+{
+    switch ($filterType) {
+        case 'most_watched':
+            usort($movies, function ($a, $b) {
+                return $b['views'] - $a['views']; // Urutkan berdasarkan views
+            });
+            break;
 
-// Shuffle for random movies
-shuffle($movies);
-$randomMovies = array_slice($movies, 0, 8); // Random 8 movies
+        case 'most_liked':
+            usort($movies, function ($a, $b) {
+                return $b['total_like'] - $a['total_like']; // Urutkan berdasarkan total like
+            });
+            break;
+
+        case 'top_rated':
+            usort($movies, function ($a, $b) {
+                $ratingA = ($a['total_like'] / ($a['total_like'] + $a['total_dislike'])) * 100;
+                $ratingB = ($b['total_like'] / ($b['total_like'] + $b['total_dislike'])) * 100;
+                return $ratingB - $ratingA; // Urutkan berdasarkan persentase rating
+            });
+            break;
+
+        case 'new_release':
+            $movies = array_filter($movies, function ($movie) {
+                return $movie['release_year'] == 2023 || $movie['release_year'] == 2024; // Filter tahun rilis
+            });
+            break;
+
+        default:
+            // Jika filter tidak valid, tampilkan semua film
+            break;
+    }
+
+    return $movies;
+}
+
+// Ambil filter yang dipilih dari parameter URL
+$filterType = isset($_GET['filter']) ? $_GET['filter'] : 'most_watched';
+$filteredMovies = filterMovies($movies, $filterType);
+
 ?>
 
 <!DOCTYPE html>
@@ -22,7 +56,7 @@ $randomMovies = array_slice($movies, 0, 8); // Random 8 movies
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mateflix | Layanan Streaming Film Sederhana</title>
+    <title>Mateflix | Filter Movies</title>
     <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
     <link rel="stylesheet" href="css/style.css">
     <script src="main.js"></script>
@@ -31,16 +65,29 @@ $randomMovies = array_slice($movies, 0, 8); // Random 8 movies
 <body>
     <div class="wrapper">
         <!-- HEADER -->
-        <?php include('../header.php') ?>
+        <?php include('header.php'); ?>
         <!-- END OF HEADER -->
 
         <!-- MAIN CONTENT -->
         <section class="main-container">
-            <!-- Trending Now Section -->
-            <div class="location" id="trending">
-                <h1>Trending Now</h1>
+            <!-- Filter Category Section -->
+            <div class="filter-category">
+                <h2>Filter Movies</h2>
+                <form action="filter.php" method="GET">
+                    <select name="filter" onchange="this.form.submit()">
+                        <option class="watch-btn" value="most_watched" <?php echo $filterType == 'most_watched' ? 'selected' : ''; ?>>Most Watched</option>
+                        <option class="watch-btn" value="most_liked" <?php echo $filterType == 'most_liked' ? 'selected' : ''; ?>>Most Liked</option>
+                        <option class="watch-btn" value="top_rated" <?php echo $filterType == 'top_rated' ? 'selected' : ''; ?>>Top Rated</option>
+                        <option class="watch-btn" value="new_release" <?php echo $filterType == 'new_release' ? 'selected' : ''; ?>>New Release (2023-2024)</option>
+                    </select>
+                </form>
+            </div>
+
+            <!-- Movie List Section -->
+            <div class="wrapper">
+                <h1>Movies</h1>
                 <div class="box">
-                    <?php foreach ($topMovies as $movie): ?>
+                    <?php foreach ($filteredMovies as $movie): ?>
                         <a href="watch.php?movie_id=<?= urlencode($movie['id']); ?>">
                             <div class="image-container"
                                 data-id="<?= urlencode($movie['id']); ?>"
@@ -58,28 +105,8 @@ $randomMovies = array_slice($movies, 0, 8); // Random 8 movies
                     <?php endforeach; ?>
                 </div>
             </div>
-
-            <!-- Random Movies Section -->
-            <h1>Random Picks</h1>
-            <div class="box">
-                <?php foreach ($randomMovies as $movie): ?>
-                    <a href="watch.php?movie_id=<?= urlencode($movie['id']); ?>">
-                        <div class="image-container"
-                            data-id="<?= urlencode($movie['id']); ?>"
-                            data-title="<?= htmlspecialchars($movie['title']); ?>"
-                            data-image="<?= htmlspecialchars($movie['image_url']); ?>"
-                            data-genre="<?= implode(', ', array_filter([$movie['genre1'], $movie['genre2'], $movie['genre3']])); ?>"
-                            data-views="<?= number_format($movie['views']); ?>"
-                            data-description="<?= htmlspecialchars($movie['description']); ?>">
-                            <img src="<?= htmlspecialchars($movie['image_url']); ?>" alt="<?= htmlspecialchars($movie['title']); ?>">
-                            <div class="overlay">
-                                <p class="title"><?= htmlspecialchars($movie['title']); ?></p>
-                            </div>
-                        </div>
-                    </a>
-                <?php endforeach; ?>
-            </div>
         </section>
+        <!-- FOOTER -->
         <!-- Modal -->
         <div id="movieModal" class="modal">
             <div class="modal-content">
@@ -90,7 +117,6 @@ $randomMovies = array_slice($movies, 0, 8); // Random 8 movies
                 <a id="watchButton" href="#" class="watch-btn">Watch Now</a>
             </div>
         </div>
-        <!-- FOOTER -->
         <footer>
             <p>&copy; 2024 Mateflix</p>
         </footer>
@@ -115,7 +141,6 @@ $randomMovies = array_slice($movies, 0, 8); // Random 8 movies
             const watchButton = document.getElementById('watchButton');
             const closeBtn = document.querySelector('.close');
 
-            // Tambahkan event listener ke setiap container film
             document.querySelectorAll('.box .image-container').forEach(container => {
                 container.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -127,32 +152,25 @@ $randomMovies = array_slice($movies, 0, 8); // Random 8 movies
                     const description = container.getAttribute('data-description') || 'Details not available';
                     const movieId = container.getAttribute('data-id');
 
-                    // Filter genre yang tersedia
                     const genres = genre.split(',').filter(g => g.trim() !== '');
 
-                    // Isi data modal
                     modalImage.src = image;
                     modalTitle.textContent = title;
                     modalDetails.innerHTML = `
-                ${description}<br>
-                <strong>Genre:</strong> ${genres.join(', ')}<br>
-                <strong>Views:</strong> ${views}
-            `;
+                        ${description}<br>
+                        <strong>Genre:</strong> ${genres.join(', ')}<br>
+                        <strong>Views:</strong> ${views}
+                    `;
 
-                    // Atur tautan tombol Watch Now
                     watchButton.href = `watch.php?movie_id=${encodeURIComponent(movieId)}`;
-
-                    // Tampilkan modal
                     modal.style.display = 'block';
                 });
             });
 
-            // Tutup modal saat tombol close diklik
             closeBtn.addEventListener('click', () => {
                 modal.style.display = 'none';
             });
 
-            // Tutup modal saat klik di luar modal
             window.addEventListener('click', (e) => {
                 if (e.target === modal) {
                     modal.style.display = 'none';
