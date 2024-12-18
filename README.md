@@ -27,7 +27,7 @@ $apiUrl = "http://localhost/FOLDER_NAME/api/index.php?api_key=$apiKey";
 ```
 ^Ganti $apiUrl dengan alamat anda
 
-### Use available API 
+### Use available API (Public API)
 Atau anda bisa menggunakan API saja yang sudah di publish public.
 
 * Gunakan endpoint untuk mendapatkan data film
